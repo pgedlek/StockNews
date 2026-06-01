@@ -4,11 +4,11 @@ on:
   schedule:
     # All times in UTC. NY = UTC-5 (EST) / UTC-4 (EDT)
     # Using EST offsets (winter). In summer subtract 1h from UTC times.
-    - cron: "0 13 * * 1-5"   # 08:00 ET — pre-market
-    - cron: "30 15 * * 1-5"  # 10:30 ET — first hour reaction
-    - cron: "0 18 * * 1-5"   # 13:00 ET — midday
-    - cron: "30 20 * * 1-5"  # 15:30 ET — last 30min before close
-    - cron: "0 23 * * 1-5"   # 18:00 ET — after-hours wrap-up
+    - cron: "33 13 * * 1-5"  # 08:33 ET — pre-market
+    - cron: "26 15 * * 1-5"  # 10:26 ET — first hour reaction
+    - cron: "57 17 * * 1-5"  # 12:57 ET — midday
+    - cron: "41 20 * * 1-5"  # 15:41 ET — last 30min before close
+    - cron: "09 23 * * 1-5"  # 18:09 ET — after-hours wrap-up
   workflow_dispatch: {}       # allows manual trigger from GitHub UI
 
 jobs:
