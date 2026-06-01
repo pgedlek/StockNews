@@ -40,6 +40,13 @@ def fetch_news(ticker: str, days_back: int = 1) -> list[dict]:
 def fetch_market_snapshot() -> dict:
     quotes = fetch_quotes()
     movers = sorted(quotes, key=lambda q: abs(q["change_pct"]), reverse=True)
-    top = movers[0]
-    news = fetch_news(top["ticker"])
+
+    # Pick the biggest mover that has news; fall back to the biggest mover if none do
+    top, news = movers[0], []
+    for mover in movers:
+        candidate_news = fetch_news(mover["ticker"])
+        if candidate_news:
+            top, news = mover, candidate_news
+            break
+
     return {"quotes": quotes, "top_mover": top, "top_news": news}
