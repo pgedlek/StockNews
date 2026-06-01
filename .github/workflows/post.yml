@@ -2,7 +2,11 @@ name: Post to X
 
 on:
   schedule:
-    - cron: "0 * * * 1-5"
+    - cron: "39 12 * * 1-5" # 08:39 AM ET — pre-market (UTC-4)
+    - cron: "26 14 * * 1-5" # 10:26 AM ET — first hour reaction
+    - cron: "57 16 * * 1-5" # 12:57 PM ET — midday
+    - cron: "41 19 * * 1-5" # 03:41 PM ET — last 30min before close
+    - cron: "52 21 * * 1-5" # 05:52 PM ET — after-hours wrap-up
 
   workflow_dispatch: {}
 
