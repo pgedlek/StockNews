@@ -2,14 +2,13 @@ name: Post to X
 
 on:
   schedule:
-    # All times in UTC. NY = UTC-5 (EST) / UTC-4 (EDT)
-    # Using EST offsets (winter). In summer subtract 1h from UTC times.
-    - cron: "33 13 * * 1-5"  # 08:33 ET — pre-market
-    - cron: "26 15 * * 1-5"  # 10:26 ET — first hour reaction
-    - cron: "57 17 * * 1-5"  # 12:57 ET — midday
-    - cron: "41 20 * * 1-5"  # 15:41 ET — last 30min before close
-    - cron: "09 23 * * 1-5"  # 18:09 ET — after-hours wrap-up
-  workflow_dispatch: {}       # allows manual trigger from GitHub UI
+    - cron: "33 12 * * 1-5" # 08:33 AM ET — pre-market (UTC-4)
+    - cron: "26 14 * * 1-5" # 10:26 AM ET — first hour reaction
+    - cron: "57 16 * * 1-5" # 12:57 PM ET — midday
+    - cron: "41 19 * * 1-5" # 03:41 PM ET — last 30min before close
+    - cron: "09 22 * * 1-5" # 06:09 PM ET — after-hours wrap-up
+
+  workflow_dispatch: {}
 
 jobs:
   post:
