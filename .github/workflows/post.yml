@@ -1,0 +1,36 @@
+name: Post to X
+
+on:
+  schedule:
+    # All times in UTC. NY = UTC-5 (EST) / UTC-4 (EDT)
+    # Using EST offsets (winter). In summer subtract 1h from UTC times.
+    - cron: "0 13 * * 1-5"   # 08:00 ET — pre-market
+    - cron: "30 15 * * 1-5"  # 10:30 ET — first hour reaction
+    - cron: "0 18 * * 1-5"   # 13:00 ET — midday
+    - cron: "30 20 * * 1-5"  # 15:30 ET — last 30min before close
+    - cron: "0 23 * * 1-5"   # 18:00 ET — after-hours wrap-up
+  workflow_dispatch: {}       # allows manual trigger from GitHub UI
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run bot
+        env:
+          FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          X_API_KEY: ${{ secrets.X_API_KEY }}
+          X_API_SECRET: ${{ secrets.X_API_SECRET }}
+          X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
+          X_ACCESS_TOKEN_SECRET: ${{ secrets.X_ACCESS_TOKEN_SECRET }}
+        run: python -m src.main
