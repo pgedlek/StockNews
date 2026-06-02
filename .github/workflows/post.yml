@@ -4,7 +4,6 @@ on:
   workflow_dispatch:
 
   schedule:
-    - cron: "*/5 * * * *"
     - cron: "39 12 * * 1-5" # 08:39 AM ET — pre-market (UTC-4)
     - cron: "26 14 * * 1-5" # 10:26 AM ET — first hour reaction
     - cron: "57 16 * * 1-5" # 12:57 PM ET — midday
