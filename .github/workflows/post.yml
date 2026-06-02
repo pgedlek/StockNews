@@ -22,10 +22,10 @@ jobs:
           cache: pip
 
       - name: Restore ticker history
-        uses: actions/cache@v4
+        uses: actions/cache/restore@v4
         with:
           path: .ticker_history.json
-          key: ticker-history
+          key: ticker-history-${{ github.run_id }}
           restore-keys: ticker-history
 
       - name: Install dependencies
@@ -46,4 +46,4 @@ jobs:
         if: always()
         with:
           path: .ticker_history.json
-          key: ticker-history
+          key: ticker-history-${{ github.run_id }}
