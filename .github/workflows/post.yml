@@ -21,13 +21,6 @@ jobs:
           python-version: "3.12"
           cache: pip
 
-      - name: Restore ticker history
-        uses: actions/cache/restore@v4
-        with:
-          path: .ticker_history.json
-          key: ticker-history-${{ github.run_id }}
-          restore-keys: ticker-history
-
       - name: Install dependencies
         run: pip install -r requirements.txt
 
@@ -41,9 +34,10 @@ jobs:
           X_ACCESS_TOKEN_SECRET: ${{ secrets.X_ACCESS_TOKEN_SECRET }}
         run: python -m src.main
 
-      - name: Save ticker history
-        uses: actions/cache/save@v4
-        if: always()
-        with:
-          path: .ticker_history.json
-          key: ticker-history-${{ github.run_id }}
+      - name: Commit ticker history
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .ticker_history.json
+          git diff --cached --quiet || git commit -m "chore: update ticker history [skip ci]"
+          git push
