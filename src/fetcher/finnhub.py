@@ -17,6 +17,9 @@ def fetch_quotes() -> list[dict]:
     results = []
     for ticker in TICKERS:
         data = _get("/quote", {"symbol": ticker})
+        # Skip tickers with missing data (e.g. non-US exchange symbols)
+        if not data.get("c") or data.get("dp") is None:
+            continue
         results.append({
             "ticker": ticker,
             "price": data["c"],

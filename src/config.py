@@ -13,4 +13,4 @@ X_ACCESS_TOKEN_SECRET = os.environ["X_ACCESS_TOKEN_SECRET"]
 
 DRY_RUN = os.getenv("DRY_RUN", "false").lower() == "true"
 
-TICKERS = ["NVDA", "AMD", "INTC", "TSM", "ASML", "QCOM", "AVGO", "SNDK", "MU", "PLTR", "ALAB", "CRDO", "SMSN", "MRVL", "ARM", "LRCX", "ANET", "AMAT", "NOW", "MSFT", "META", "GOOGL", "AAPL", "AMZN", "TSLA"]
+TICKERS = ["NVDA", "AMD", "INTC", "TSM", "ASML", "QCOM", "AVGO", "SNDK", "MU", "PLTR", "ALAB", "CRDO", "MRVL", "ARM", "LRCX", "ANET", "AMAT", "NOW", "MSFT", "META", "GOOGL", "AAPL", "AMZN", "TSLA"]
