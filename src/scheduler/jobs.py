@@ -2,6 +2,7 @@ import logging
 from src.fetcher.finnhub import fetch_market_snapshot
 from src.analyzer.claude import generate_post
 from src.poster.twitter import post
+from src.history import save_recent
 
 logger = logging.getLogger(__name__)
 
@@ -12,4 +13,5 @@ def run() -> None:
     text = generate_post(snapshot)
     logger.info(f"Generated: {text}")
     tweet_id = post(text)
+    save_recent(snapshot["top_mover"]["ticker"])
     logger.info(f"Posted tweet_id={tweet_id}")

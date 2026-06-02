@@ -1,6 +1,7 @@
 import httpx
 from datetime import date, timedelta
 from src.config import FINNHUB_API_KEY, TICKERS
+from src.history import load_recent
 
 BASE = "https://finnhub.io/api/v1"
 HEADERS = {"X-Finnhub-Token": FINNHUB_API_KEY}
@@ -40,13 +41,24 @@ def fetch_news(ticker: str, days_back: int = 1) -> list[dict]:
 def fetch_market_snapshot() -> dict:
     quotes = fetch_quotes()
     movers = sorted(quotes, key=lambda q: abs(q["change_pct"]), reverse=True)
+    recent = load_recent()
 
-    # Pick the biggest mover that has news; fall back to the biggest mover if none do
+    # Prefer movers not in recent history that also have news
+    # Fall back progressively: recent ticker with news → any ticker → biggest mover
     top, news = movers[0], []
     for mover in movers:
+        if mover["ticker"] in recent:
+            continue
         candidate_news = fetch_news(mover["ticker"])
         if candidate_news:
             top, news = mover, candidate_news
             break
+    else:
+        # All fresh tickers exhausted — allow recent ones
+        for mover in movers:
+            candidate_news = fetch_news(mover["ticker"])
+            if candidate_news:
+                top, news = mover, candidate_news
+                break
 
     return {"quotes": quotes, "top_mover": top, "top_news": news}
